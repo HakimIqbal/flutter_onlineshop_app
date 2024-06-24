@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1086847890895",
+    "project_id": "luxeshop-flutterolshop",
+    "storage_bucket": "luxeshop-flutterolshop.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1086847890895:android:5957eee521d4d19a8e8eba",
+        "android_client_info": {
+          "package_name": "com.example.flutter_onlineshop_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAq2ThYgOmbVXXSxM3G1mSxkN6aODokdOw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -404,6 +404,7 @@ class PaymentDetailPage extends StatelessWidget {
                       context.pushNamed(
                         RouteConstants.paymentWaiting,
                         pathParameters: PathParameters().toMap(),
+                        extra: orderResponseModel.order!.id,
                       );
                     },
                     error: (message) {
@@ -416,18 +417,31 @@ class PaymentDetailPage extends StatelessWidget {
                     },
                   );
                 },
-                child: Button.filled(
-                  disabled: paymentMethod == '',
-                  onPressed: () {
-                    context.read<OrderBloc>().add(OrderEvent.doOrder(
-                        addressId: addressId,
-                        paymentMethod: paymentMethod,
-                        shippingService: shippingService,
-                        shippingCost: shippingCost,
-                        paymentVaName: paymentVaName,
-                        products: products as List<ProductQuantity>));
+                child: BlocBuilder<OrderBloc, OrderState>(
+                  builder: (context, state) {
+                    return state.maybeWhen(
+                      orElse: () {
+                        return Button.filled(
+                          disabled: paymentMethod == '',
+                          onPressed: () {
+                            context.read<OrderBloc>().add(OrderEvent.doOrder(
+                                addressId: addressId,
+                                paymentMethod: paymentMethod,
+                                shippingService: shippingService,
+                                shippingCost: shippingCost,
+                                paymentVaName: paymentVaName,
+                                products: products as List<ProductQuantity>));
+                          },
+                          label: 'Bayar Sekarang',
+                        );
+                      },
+                      loading: () {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      },
+                    );
                   },
-                  label: 'Bayar Sekarang',
                 ),
               );
             },

@@ -8,6 +8,7 @@ import '../../../core/components/buttons.dart';
 import '../../../core/components/spaces.dart';
 import '../../../core/core.dart';
 import '../../../core/router/app_router.dart';
+import '../../../data/datasources/firebase_messanging_remote_datasource.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -52,7 +53,6 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ),
           const SpaceHeight(50.0),
-
           const SpaceHeight(60.0),
           TextFormField(
             controller: emailController,
@@ -82,8 +82,9 @@ class _LoginPageState extends State<LoginPage> {
             listener: (context, state) {
               state.maybeWhen(
                 orElse: () {},
-                loaded: (data) {
+                loaded: (data) async {
                   AuthLocalDatasource().saveAuthData(data);
+                  await FirebaseMessagingRemoteDatasource().initialize();
                   context.goNamed(
                     RouteConstants.root,
                     pathParameters: PathParameters().toMap(),
@@ -120,40 +121,8 @@ class _LoginPageState extends State<LoginPage> {
                   );
                 },
               );
-              // return Button.filled(
-              //   onPressed: () {
-              //     // context.goNamed(
-              //     //   RouteConstants.root,
-              //     //   pathParameters: PathParameters().toMap(),
-              //     // );
-              //     context.read<LoginBloc>().add(
-              //           LoginEvent.login(
-              //             email: emailController.text,
-              //             password: passwordController.text,
-              //           ),
-              //         );
-              //   },
-              //   label: 'Login',
-              // );
             },
           ),
-
-          // const SpaceHeight(50.0),
-          // const Row(
-          //   children: [
-          //     Flexible(child: Divider()),
-          //     SizedBox(width: 14.0),
-          //     Text('OR'),
-          //     SizedBox(width: 14.0),
-          //     Flexible(child: Divider()),
-          //   ],
-          // ),
-          // const SpaceHeight(50.0),
-          // Button.outlined(
-          //   onPressed: () {},
-          //   label: 'Login with Google',
-          //   icon: Assets.images.google.image(height: 20.0),
-          // ),
           const SpaceHeight(50.0),
           InkWell(
             onTap: () {

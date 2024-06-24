@@ -17,42 +17,36 @@ class _LogoutPageState extends State<LogoutPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-          child: BlocConsumer<LogoutBloc, LogoutState>(
-        listener: (context, state) {
-          state.maybeWhen(
-              orElse: () {},
-              loaded: () {
-                context.goNamed(
-                  RouteConstants.root,
-                  pathParameters: PathParameters().toMap(),
-                );
-              },
-              error: (message) {
-                context.goNamed(
-                  RouteConstants.login,
-                  // pathParameters: PathParameters().toMap(),
-                );
-                // ScaffoldMessenger.of(context).showSnackBar(
-                //   SnackBar(
-                //     backgroundColor: Colors.red,
-                //     content: Text(message),
-                //   ),
-                // );
-              });
-        },
-        builder: (context, state) {
-          return state.maybeWhen(orElse: () {
-            return ElevatedButton(
-              onPressed: () {
-                context.read<LogoutBloc>().add(const LogoutEvent.logout());
-              },
-              child: const Text('Logout'),
-            );
-          }, loading: () {
-            return const CircularProgressIndicator();
-          });
-        },
-      )),
+        child: BlocConsumer<LogoutBloc, LogoutState>(
+          listener: (context, state) {
+            state.maybeWhen(
+                orElse: () {},
+                loaded: () {
+                  context.goNamed(
+                    RouteConstants.root,
+                    pathParameters: PathParameters().toMap(),
+                  );
+                },
+                error: (message) {
+                  context.goNamed(
+                    RouteConstants.login,
+                  );
+                });
+          },
+          builder: (context, state) {
+            return state.maybeWhen(orElse: () {
+              return ElevatedButton(
+                onPressed: () {
+                  context.read<LogoutBloc>().add(const LogoutEvent.logout());
+                },
+                child: const Text('Logout'),
+              );
+            }, loading: () {
+              return const CircularProgressIndicator();
+            });
+          },
+        ),
+      ),
     );
   }
 }

@@ -10,9 +10,12 @@ import '../../presentation/auth/pages/register_page.dart';
 import '../../presentation/home/pages/dashboard_page.dart';
 import '../../presentation/intro/splash_page.dart';
 import '../../presentation/orders/pages/cart_page.dart';
+import '../../presentation/orders/pages/history_order_page.dart';
 import '../../presentation/orders/pages/order_detail_page.dart';
 import '../../presentation/orders/pages/payment_detail_page.dart';
 import '../../presentation/orders/pages/payment_waiting_page.dart';
+import '../../presentation/orders/pages/shipping_detail_page.dart';
+import '../../presentation/orders/pages/tracking_order_page.dart';
 
 // import '../../../ui/address/models/address_model.dart';
 // import '../../../ui/address/pages/add_address_page.dart';
@@ -68,6 +71,11 @@ class AppRouter {
         },
         routes: [
           GoRoute(
+            name: RouteConstants.orderList,
+            path: RouteConstants.orderListPath,
+            builder: (context, state) => const HistoryOrderPage(),
+          ),
+          GoRoute(
             name: RouteConstants.cart,
             path: RouteConstants.cartPath,
             builder: (context, state) => const CartPage(),
@@ -85,7 +93,29 @@ class AppRouter {
                       GoRoute(
                         name: RouteConstants.paymentWaiting,
                         path: RouteConstants.paymentWaitingPath,
-                        builder: (context, state) => const PaymentWaitingPage(),
+                        builder: (context, state) {
+                          final args = state.extra as int;
+                          return PaymentWaitingPage(orderId: args);
+                        },
+                      ),
+                      GoRoute(
+                        name: RouteConstants.trackingOrder,
+                        path: RouteConstants.trackingOrderPath,
+                        builder: (context, state) {
+                          final args = state.extra as int;
+                          return TrackingOrderPage(orderId: args);
+                        } ,
+                        routes: [
+                          GoRoute(
+                            name: RouteConstants.shippingDetail,
+                            path: RouteConstants.shippingDetailPath,
+                            builder: (context, state) {
+                              final args = state.extra as String;
+                              return ShippingDetailPage(resi: args);
+                            }
+                                ,
+                          ),
+                        ],
                       ),
                     ],
                   ),
